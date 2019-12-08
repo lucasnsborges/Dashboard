@@ -1,0 +1,57 @@
+@import "https://utils.organizze.com.br/fonts/circular-std/font-circular.css";
+
+/* Mover para um componente separado */
+.logo {
+  margin-bottom: 2rem;
+  width: 145px;
+  height: 35px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f8f8f8;
+  padding: 1rem;
+}
+
+.signin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 4px;
+  max-width: 100%;
+  width: 540px;
+  padding: 70px 15px;
+  border: solid 1px #f1f1f1;
+}
+
+.signin h1 {
+  font-size: 1.75rem;
+  line-height: 1.75rem;
+  text-align: center;
+  color: #525252;
+  font-family: circularstd;
+  margin-bottom: 2.5rem;
+}
+
+.signin label {
+  color: #747b87 !important;
+  font-size: 16px;
+  font-family: circularstd;
+}
+
+.signin .btn {
+  font-weight: bold;
+  font-size: 16px;
+  font-family: circularstd;
+  margin: 4px auto;
+  border-radius: 50px;
+}
+
+.form-box {
+  max-width: 350px;
+  width: 100%;
+}

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { Route, Switch, withRouter } from "react-router-dom";
-import { ApolloProvider } from "react-apollo";
+import { BrowserRouter as Router, Route, Switch, withRouter } from "react-router-dom";
 import { ApolloClient } from "apollo-client";
 import { ApolloLink } from "apollo-link";
 import { onError } from "apollo-link-error";
@@ -15,10 +14,15 @@ import OauthTokenRetrieve from "./components/OauthTokenRetrieve";
 import PrivateRoute from "./components/PrivateRoute";
 import OauthTokenStart from "./components/OauthTokenStart";
 import SignOut from "./components/SignOut";
-import Home from "./components/Home";
-import Dashboard from "./components/Dashboard";
+
+import Dashboard from "./screens/Dashboard";
+
+import Login from './screens/Auth/Signin';
 
 import { AuthTokenKey, GraphqlEndpoint } from "./utils/config";
+
+import Home from "./components/Home";
+import Course from "./screens/Auth/Signin";
 
 import "./App.css";
 
@@ -71,7 +75,7 @@ class App extends Component {
 
   render() {
     return (
-      <ApolloProvider client={this.client}>
+      <Router>
         <Helmet>
           <meta charSet="utf-8" />
           <title>Dashboard - Feed for showcasing your prototypes</title>
@@ -86,13 +90,13 @@ class App extends Component {
           <link rel="canonical" href="https://dashboard.marvelapp.com" />
         </Helmet>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Login} />
           <Route exact path="/oauth/" component={OauthTokenStart} />
           <Route exact path="/oauth/callback" component={OauthTokenRetrieve} />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <Route path="/dashboard" component={Dashboard} />
           <PrivateRoute exact path="/signout" component={SignOut} />
         </Switch>
-      </ApolloProvider>
+      </Router>
     );
   }
 }
