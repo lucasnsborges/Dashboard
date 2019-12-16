@@ -1,3 +1,5 @@
+import "./styles/index.css";
+import "./styles/custom.css"
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
@@ -18,13 +20,10 @@ import SignOut from "./components/SignOut";
 import Dashboard from "./screens/Dashboard";
 
 import Login from './screens/Auth/Signin';
+import Signup from './screens/Auth/Signup';
 
 import { AuthTokenKey, GraphqlEndpoint } from "./utils/config";
 
-import Home from "./components/Home";
-import Course from "./screens/Auth/Signin";
-
-import "./App.css";
 
 class App extends Component {
   constructor(props) {
@@ -90,7 +89,8 @@ class App extends Component {
           <link rel="canonical" href="https://dashboard.marvelapp.com" />
         </Helmet>
         <Switch>
-          <Route exact path="/" component={Login} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/cadastro" component={Signup} />
           <Route exact path="/oauth/" component={OauthTokenStart} />
           <Route exact path="/oauth/callback" component={OauthTokenRetrieve} />
           <Route path="/dashboard" component={Dashboard} />

@@ -1,63 +1,115 @@
 import "../styles.css";
 import React, { Component } from "react";
+import axios from "axios";
+
+import { api_url } from "../../../utils/config";
 
 export default class Signin extends Component {
+  state = {
+    isLoading: false
+  };
+
+  handleChange = e => {
+    const key = e.currentTarget.getAttribute("id");
+    const value = e.currentTarget.value;
+
+    this.setState({
+      [key]: value
+    });
+  };
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+
+    this.setState({
+      isLoading: true
+    });
+
+    const { email, password } = this.state;
+
+    const login = await axios
+      .post(
+        `${api_url}/auth`,
+        { access_token: "1d1b7abfe7de284b6cf6f69667401f82" },
+        {
+          auth: {
+            username: email,
+            password: password
+          }
+        }
+      )
+      .then(function({ data }) {
+        return data;
+      })
+      .catch(function(error) {
+        return error.response.data;
+      });
+
+    if (login.token) {
+      localStorage.setItem("token", login.token);
+      localStorage.setItem("budd_user", JSON.stringify(login.user));
+      window.location.href = "/dashboard/1/profile";
+    } else {
+      this.setState({
+        message: "Ops... tente novamente ou entre contanto com nosso suporte",
+        isLoading: false
+      });
+
+      return false;
+    }
+  };
+
   render() {
     return (
       <div className="page">
         <div className="logo">
           <a href="/">
             <img
-              class="img-fluid"
+              className="img-fluid"
               alt="Organizze"
               src="https://s3.amazonaws.com/emails.organizze/new-logo-organizze-grey.svg"
             />
           </a>
         </div>
-        <div className="signin bg-white">
-          <div className="form-box d-flex flex-column">
+        <div className="signin__box bg-white">
+          <div className="signin__box-content d-flex flex-column">
             <h1>Acesse sua conta</h1>
-            <div className="w-75 d-flex align-item-center">
-              <button type="button" class="btn btn-primary">
-                Entrar com Facebook
-              </button>
-            </div>
-            <div className="w-75 d-flex align-item-center">
-              <button type="button" class="btn btn-primary">
-                Entrar com Google
-              </button>
-            </div>
 
             <form className="d-flex flex-column" style={{ margin: "10px 0" }}>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Seu email</label>
+              <div className="form-group">
+                <label>Seu email</label>
                 <input
+                  placeholder="Insira seu e-mail de acesso"
                   type="email"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
+                  className="form-control"
+                  id="email"
+                  onChange={this.handleChange}
                 />
               </div>
-              <div className="d-flex flex-row">
-                <div class="form-group mr-1">
-                  <label for="exampleInputPassword1">Sua senha</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="exampleInputPassword1"
-                  />
-                </div>
-                <div class="form-group ml-1">
-                  <label for="exampleInputPassword1">Repetir senha</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="exampleInputPassword1"
-                  />
-                </div>
+
+              <div className="form-group">
+                <label>Sua senha</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  onChange={this.handleChange}
+                />
               </div>
-              <button type="submit" class="btn btn-primary">
-                Entrar
+
+              <button
+                onClick={this.handleSubmit}
+                className="btn btn-primary text-white"
+              >
+                {this.state.isLoading ? (
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  "Iniciar sessão"
+                )}
               </button>
             </form>
           </div>

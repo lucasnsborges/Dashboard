@@ -13,16 +13,35 @@ const user = {
 };
 
 export default class Profile extends Component {
+
+  state = {
+    user: {}
+  }
+
+  componentDidMount() {
+    const user = localStorage.getItem('budd_user');
+    const copy = JSON.parse(user);
+
+    copy.signature = 'pro'
+    copy.expires = '20-12-2019'
+
+    this.setState({
+      user: copy,
+    })
+  }
+
   render() {
+    const { user } = this.state;
+
     return (
       <div className="page">
         <div className="profile-container bg-white">
-          <Avatar url={user.picture_url} />
+          <Avatar url={user.picture} />
 
           <div className="text-center m-4">
-            <h4>{user.name}</h4>
+            <h4 className="text-capitalize">{user.name}</h4>
             <span>{user.email}</span>
-            <p className="color-primary">Alterar senha</p>
+            <p className="color-primary mt-4">Alterar senha</p>
           </div>
 
           <div className="container signature-wrapper">
