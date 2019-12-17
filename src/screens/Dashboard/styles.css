@@ -39,9 +39,7 @@
 
 .avatar {
   display: block;
-  width: 150px;
-  height: 150px;
-  border-radius: 150px;
+  width: 125px;
 }
 
 .signature {

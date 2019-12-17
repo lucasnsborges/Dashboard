@@ -1,7 +1,7 @@
 import "../styles.css";
 import React, { Component } from "react";
-import axios from "axios";
-import { api_url } from "../../../utils/config";
+
+import api from "../../../api";
 
 export default class Signup extends Component {
   state = {
@@ -62,20 +62,13 @@ export default class Signup extends Component {
       message: ""
     });
 
-    const create = await axios
-      .post(`${api_url}/users`, {
-        email,
-        password,
-        access_token: "1d1b7abfe7de284b6cf6f69667401f82"
-      })
-      .then(function({ data }) {
-        return data;
-      })
-      .catch(function(error) {
-        return error;
-      });
+    const create = await api.createUser({ email, password });
 
-    if (create.response.status !== 201 || create.response.data.param) {
+    if (
+      create.response &&
+      create.response.status &&
+      create.response.status !== 201
+    ) {
       this.setState({
         message: create.response.data.message,
         isLoading: false
@@ -85,23 +78,7 @@ export default class Signup extends Component {
     }
 
     if (create.email) {
-      const login = await axios
-        .post(
-          `${api_url}/auth`,
-          { access_token: "1d1b7abfe7de284b6cf6f69667401f82" },
-          {
-            auth: {
-              username: email,
-              password: password
-            }
-          }
-        )
-        .then(function({ data }) {
-          return data;
-        })
-        .catch(function(error) {
-          return error.response.data;
-        });
+      const login = await api.login({ email, password });
 
       if (login.token) {
         localStorage.setItem("token", login.token);

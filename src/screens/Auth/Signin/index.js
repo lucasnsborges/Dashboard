@@ -1,8 +1,7 @@
 import "../styles.css";
 import React, { Component } from "react";
-import axios from "axios";
 
-import { api_url } from "../../../utils/config";
+import api from '../../../api';
 
 export default class Signin extends Component {
   state = {
@@ -27,23 +26,7 @@ export default class Signin extends Component {
 
     const { email, password } = this.state;
 
-    const login = await axios
-      .post(
-        `${api_url}/auth`,
-        { access_token: "1d1b7abfe7de284b6cf6f69667401f82" },
-        {
-          auth: {
-            username: email,
-            password: password
-          }
-        }
-      )
-      .then(function({ data }) {
-        return data;
-      })
-      .catch(function(error) {
-        return error.response.data;
-      });
+    const login = await api.login({email, password})
 
     if (login.token) {
       localStorage.setItem("token", login.token);
